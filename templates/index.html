@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Extractor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Profile Screener</h1>
+        
+        <!-- Form to upload PDFs and enter API key -->
+        <form method="POST" enctype="multipart/form-data" class="mt-4">
+            <div class="mb-3">
+                <label for="api_key" class="form-label">Enter OpenAI API Key:</label>
+                <input type="password" class="form-control" id="api_key" name="api_key" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="files" class="form-label">Upload PDF Files:</label>
+                <input type="file" class="form-control" id="files" name="files" multiple accept="application/pdf" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        {% if tables %}
+        <div class="mt-5">
+            <h2>Extracted Data</h2>
+            <div class="table-responsive">
+                {{ tables[0]|safe }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
