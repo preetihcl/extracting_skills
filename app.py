@@ -2,7 +2,7 @@ import os
 import openai
 import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for
-from PyPDF2 import PdfFileReader
+from PyPDF2 import PdfFileReader as PdfReader
 from werkzeug.utils import secure_filename
 
 # Flask configuration
@@ -28,12 +28,10 @@ def extract_text_from_pdfs(folder_path):
         if filename.endswith(".pdf"):
             filepath = os.path.join(folder_path, filename)
             try:
-                with open(filepath, "rb") as file:
-                    reader = PdfFileReader(file)
-                    text = ""
-                    for page_num in range(reader.getNumPages()):
-                        page = reader.getPage(page_num)
-                        text += page.extract_text() + "\n"
+                reader = PdfReader(filepath)
+                text = ""
+                for page in reader.pages:
+                    text += page.extract_text() + "\n"
                 data.append({"Filename": f"<strong>{filename}</strong>", "Content": text.strip()})
             except Exception as e:
                 data.append({"Filename": f"<strong>{filename}</strong>", "Content": f"Error: {str(e)}"})
@@ -132,6 +130,7 @@ def get_gpt_response(resumetext):
             "Do not include any explanations or additional text in the response."
         )
 
+
         response = openai.Completion.create(
             engine="gpt-3.5-turbo-instruct",
             prompt=prompt,
@@ -147,6 +146,7 @@ def get_gpt_response(resumetext):
             if result:
                 responselist = result.split("\n")
                 str_list = list(filter(None, responselist))
+                # mydict = {}
                 
                 for item in str_list:
                     parts = item.split(":")
@@ -192,3 +192,125 @@ def calculate_overall_rating(skill_dict):
 
 if __name__ == "__main__":
     app.run(debug=True)
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
